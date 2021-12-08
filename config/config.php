@@ -4,12 +4,13 @@ return [
     'github' => [
         'client_id' => env('HORIZON_ACCESS_GITHUB_CLIENT_ID'),
         'client_secret' => env('HORIZON_ACCESS_GITHUB_CLIENT_SECRET'),
-        'redirect' => env('HORIZON_ACCESS_CALLBACK', '/auth/callback'),
+        'redirect' => '/horizon/auth/callback',
     ],
+    'enabled' => env('HORIZON_ACCESS_GITHUB_CLIENT_ID') && env('HORIZON_ACCESS_GITHUB_CLIENT_SECRET') ? true : false,
     'middleware' => 'horizon',
     'home' => '/horizon',
-    'redirect' => env('HORIZON_ACCESS_REDIRECT', '/auth/redirect'),
-    'callback' => env('HORIZON_ACCESS_CALLBACK', '/auth/callback'),
+    'redirect' => '/horizon/auth/redirect',
+    'callback' => '/horizon/auth/callback',
     'session-key' => 'jauntin-github-user',
     'team-members-uri' => '/orgs/jauntin/teams/administrators/members',
 ];
