@@ -10,6 +10,9 @@ use Jauntin\HorizonAccess\Facades\HorizonAccess;
 
 class RedirectToSocialIfNotAuthenticated
 {
+    /**
+     * @return mixed
+     */
     public function handle(Request $request, Closure $next)
     {
         if (

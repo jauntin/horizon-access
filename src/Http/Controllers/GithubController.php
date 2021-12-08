@@ -15,6 +15,10 @@ class GithubController extends Controller
     {
         $this->middleware('social-auth');
     }
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function redirect()
     {
         return $this->getProvider()
@@ -22,6 +26,9 @@ class GithubController extends Controller
             ->redirect();
     }
 
+    /**
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     */
     public function callback()
     {
         /** @var AbstractUser */
@@ -33,10 +40,12 @@ class GithubController extends Controller
 
     private function getProvider(): GithubProvider
     {
-        return resolve(SocialiteManager::class)
+        /** @var GithubProvider */
+        $provider = resolve(SocialiteManager::class)
             ->buildProvider(
                 GithubProvider::class,
                 Config::get('horizon-access.github')
             );
+        return $provider;
     }
 }
