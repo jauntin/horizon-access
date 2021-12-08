@@ -15,7 +15,7 @@ class HorizonAccessServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__ . '/../config/config.php' => config_path('horizon-access.php'),
-            ], 'config');
+            ], 'horizon-access.config');
         }
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
 
