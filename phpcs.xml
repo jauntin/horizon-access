@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<ruleset name="Project_Rules">
+    <description>The coding standard for our project.</description>
+    <file>src</file>
+    <file>tests</file>
+
+    <exclude-pattern>*/*.js</exclude-pattern>
+    <exclude-pattern>*/*.css</exclude-pattern>
+    <exclude-pattern>*/*.xml</exclude-pattern>
+    <exclude-pattern>*/cache/*</exclude-pattern>
+    <exclude-pattern>*/storage/*</exclude-pattern>
+    <exclude-pattern>*/resources/*</exclude-pattern>
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/public/index.php</exclude-pattern>
+    <exclude-pattern>*/*.blade.php</exclude-pattern>
+
+    <arg value="np"/>
+
+    <rule ref="PSR12">
+        <!--
+        Some rules differ as defined/interpreted in PHPCS and Intelephense
+        Ignore anything that conflicts here.
+        In order to make writing smoother I would prefer to accept
+        the version outlined in the formatter than in PHPCS
+        -->
+        <exclude name="PSR12.ControlStructures.ControlStructureSpacing.FirstExpressionLine" />
+        <exclude name="PSR12.ControlStructures.ControlStructureSpacing.CloseParenthesisLine" />
+        <exclude name="PSR12.ControlStructures.ControlStructureSpacing.LineIndent" />
+    </rule>
+</ruleset>
