@@ -3,7 +3,9 @@
 namespace Jauntin\HorizonAccess\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
 use Jauntin\HorizonAccess\Facades\HorizonAccess;
@@ -11,9 +13,12 @@ use Jauntin\HorizonAccess\Facades\HorizonAccess;
 class RedirectToSocialIfNotAuthenticated
 {
     /**
-     * @return mixed
+     * @param Request $request
+     * @param Closure $next
+     *
+     * @return Response|RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): Response|RedirectResponse
     {
         if (
             HorizonAccess::enabled() &&

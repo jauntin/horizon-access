@@ -2,6 +2,8 @@
 
 namespace Jauntin\HorizonAccess;
 
+use Illuminate\Container\Container;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Routing\Router;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Config;
@@ -10,6 +12,9 @@ use Jauntin\HorizonAccess\Http\Middleware\RedirectToSocialIfNotAuthenticated;
 
 class HorizonAccessServiceProvider extends ServiceProvider
 {
+    /**
+     * @throws BindingResolutionException
+     */
     public function boot(): void
     {
         if ($this->app->runningInConsole()) {
@@ -34,8 +39,8 @@ class HorizonAccessServiceProvider extends ServiceProvider
     {
         // Automatically apply the package configuration
         $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'horizon-access');
-        $this->app->bind('HorizonAccess', function ($app) {
-            return new HorizonAccess();
+        $this->app->bind('HorizonAccess', function (Container $container) {
+            return new HorizonAccess($container->make(GateProvider::class));
         });
     }
 }
