@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Facade;
  */
 class HorizonAccess extends Facade
 {
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return 'HorizonAccess';
     }
