@@ -12,15 +12,12 @@ use Laravel\Socialite\Two\GithubProvider;
 
 class GithubController extends Controller
 {
-    private SocialiteManager $socialiteManager;
-
     /**
      * @param SocialiteManager $socialiteManager
      */
-    public function __construct(SocialiteManager $socialiteManager)
-    {
-        $this->socialiteManager = $socialiteManager;
-
+    public function __construct(
+        private SocialiteManager $socialiteManager
+    ) {
         $this->middleware('social-auth');
     }
 
