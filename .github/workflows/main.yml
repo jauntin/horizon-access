@@ -1,67 +1,69 @@
-name: run-tests
+name: Test
 
 on:
-    push:
-        branches: [master]
-    pull_request:
-        branches: [master]
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
-    analyze:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v2
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-        - name: Setup PHP
-          uses: shivammathur/setup-php@v2
-          with:
-              php-version: 8.1
-              extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, bcmath, intl, gd, exif, iconv, fileinfo
-        - name: Get composer cache directory
-          id: composer-cache
-          run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-        - name: Cache dependencies
-          uses: actions/cache@v2
-          with:
-            path: ${{ steps.composer-cache.outputs.dir }}
-            key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-            restore-keys: ${{ runner.os }}-composer-
-        - run: composer install
-        - run: composer analyze
-    test:
-        runs-on: ${{ matrix.os }}
-        strategy:
-            fail-fast: true
-            matrix:
-                os: [ubuntu-latest]
-                php: [8.1]
-                laravel: [9.*]
-                stability: [prefer-lowest, prefer-stable]
-                include:
-                    - laravel: 9.*
-                      testbench: ^7.0
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, bcmath, intl, gd, exif, iconv, fileinfo
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - run: composer install
+      - run: composer analyze
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest]
+        php: [8.1]
+        packages:
+          - laravel: ^9.0
+            testbench: ^7.0
+          - laravel: ^10.0
+            testbench: ^8.0
+        stability: [prefer-lowest, prefer-stable]
 
-        name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
+    name: P${{ matrix.php }} - L${{ matrix.packages.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v2
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: ${{ matrix.php }}
-                  extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
-                  coverage: none
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
+          coverage: none
 
-            - name: Setup problem matchers
-              run: |
-                  echo "::add-matcher::${{ runner.tool_cache }}/php.json"
-                  echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
-            - name: Install dependencies
-              run: |
-                  composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
-                  composer update --${{ matrix.stability }} --prefer-dist --no-interaction
-            - name: Execute tests
-              run: vendor/bin/phpunit
+      - name: Setup problem matchers
+        run: |
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+      - name: Install dependencies
+        run: |
+          composer require "illuminate/support:${{ matrix.packages.laravel }}" "laravel/framework:${{ matrix.packages.laravel }}" "orchestra/testbench:${{ matrix.packages.testbench }}" --no-interaction --no-update
+          composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+      - name: Execute tests
+        run: vendor/bin/phpunit

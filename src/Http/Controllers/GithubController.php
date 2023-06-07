@@ -4,6 +4,7 @@ namespace Jauntin\HorizonAccess\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\AbstractUser;
@@ -32,9 +33,9 @@ class GithubController extends Controller
     }
 
     /**
-     * @return RedirectResponse
+     * @return RedirectResponse|Redirector
      */
-    public function callback(): RedirectResponse
+    public function callback(): RedirectResponse|Redirector
     {
         /** @var AbstractUser */
         $user = $this->getProvider()->user();

@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
 use Jauntin\HorizonAccess\Facades\HorizonAccess;
@@ -17,9 +18,9 @@ class RedirectToSocialIfNotAuthenticated
      * @param Request $request
      * @param Closure $next
      *
-     * @return Response|RedirectResponse|JsonResponse
+     * @return Response|RedirectResponse|JsonResponse|Redirector
      */
-    public function handle(Request $request, Closure $next): Response|RedirectResponse|JsonResponse
+    public function handle(Request $request, Closure $next): Response|RedirectResponse|JsonResponse|Redirector
     {
         if (
             HorizonAccess::enabled() &&
