@@ -10,7 +10,7 @@ class HorizonAccess
      * @param GateProvider $gateProvider
      */
     public function __construct(
-        private GateProvider $gateProvider
+        private readonly GateProvider $gateProvider
     ) {
     }
 

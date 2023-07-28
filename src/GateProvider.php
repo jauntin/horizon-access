@@ -31,6 +31,9 @@ class GateProvider
         }
     }
 
+    /**
+     * @return array<int, array<string, string>>
+     */
     private function getTeamMembers(string $token): array
     {
         $teamMembers = Cache::get('jauntin-github-team-members' . $token);
