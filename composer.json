@@ -1,6 +1,6 @@
 {
     "name": "jauntin/horizon-access",
-    "description": "Package for providing access to laravel horizon via Jauntin's identieis",
+    "description": "Package for providing access to laravel horizon via Jauntin's identities",
     "keywords": [
         "jauntin",
         "horizon-access"
@@ -16,15 +16,15 @@
         }
     ],
     "require": {
-        "php": "^8.1",
-        "illuminate/support": "^10.0",
+        "php": "^8.1|^8.3",
+        "illuminate/support": "^10.0|^11.0",
         "laravel/socialite": "^5.2"
     },
     "require-dev": {
-        "laravel/pint": "^1.10",
-        "nunomaduro/larastan": "^2.0",
-        "orchestra/testbench": "^8.0",
-        "phpunit/phpunit": "^10.0"
+        "laravel/pint": "^1.18.1",
+        "larastan/larastan": "^2.9.9",
+        "orchestra/testbench": "^8.27.2|^9.5.2",
+        "phpunit/phpunit": "^10.5.38|^11.4.3"
     },
     "autoload": {
         "psr-4": {
