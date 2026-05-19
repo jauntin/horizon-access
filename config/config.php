@@ -9,7 +9,7 @@ return [
         'redirect' => $callback,
     ],
     'enabled' => env('HORIZON_ACCESS_GITHUB_CLIENT_ID') && env('HORIZON_ACCESS_GITHUB_CLIENT_SECRET'),
-    'middleware' => 'horizon',
+    'middleware' => 'horizon-access',
     'home' => '/horizon',
     'redirect' => '/horizon/auth/redirect',
     'callback' => $callback,

@@ -51,7 +51,7 @@ Update your `horizon` configuration by making the `middleware` key match `horizo
 
 ```php
     // e.g.
-    'middleware' => ['horizon'],
+    'middleware' => ['horizon-access'],
 ```
 
 Update your `HorizonServiceProvider` to ask this package to handle gating. For example, the following snippet uses this package's gate when this package is enabled and falls back to a default gate in other situations:
